@@ -3,15 +3,26 @@
 header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json');
 
+$method = $_SERVER["REQUEST_METHOD"];
+
 function jsonError($message) {
     return json_encode(array(
         "error" => $message
     ));
 }
 
-$method = $_SERVER["REQUEST_METHOD"];
+function getParameter($param) {
+    $method = $_SERVER["REQUEST_METHOD"];
 
-$project = $_GET["project"];
+    if ($method == "GET") {
+        return $_GET[$param];
+    }
+    if ($method == "POST") {
+        return $_POST[$param]; 
+    }
+}
+
+$project = getParameter("project");
 
 if (isset($project)) {
     
@@ -32,8 +43,8 @@ if (isset($project)) {
         $data = new stdClass();
     } 
 
-    $id = $_GET["id"];
-    $newValue = $_GET["value"];
+    $id = getParameter("id");
+    $newValue = getParameter("value");
     if (is_bool(json_decode($newValue))) {
         $newValue = json_decode($newValue);
     } elseif (is_numeric(json_decode($newValue))) {

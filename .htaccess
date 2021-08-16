@@ -1,4 +1,1 @@
-<Directory .git>
-    Order allow,deny
-    Deny from all
-</Directory>
+RedirectMatch 404 /\.git

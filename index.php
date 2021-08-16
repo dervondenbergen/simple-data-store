@@ -33,6 +33,11 @@ if (isset($project)) {
 
     $id = $_GET["id"];
     $newValue = $_GET["value"];
+    if (is_bool(json_decode($newValue))) {
+        $newValue = json_decode($newValue);
+    } elseif (is_numeric(json_decode($newValue))) {
+        $newValue = $newValue + 0;
+    }
 
     if (isset($id)) {
         if ($method == "POST" && isset($newValue)) {
@@ -44,7 +49,7 @@ if (isset($project)) {
         if (!isset($value)) {
             http_response_code(404);
         }
-        echo strval($value); 
+        echo is_bool($value) ? json_encode($value) : strval($value);
     } else {
         if ($method == "GET") {
             echo json_encode($data);
